@@ -4,6 +4,19 @@ local function nmap(command, value)
   vim.api.nvim_set_keymap('n', command, value, { noremap = true })
 end
 
+function M.setOrtographyKeybindings()
+  -- TODO : make them configurable maybe?
+  local ortography = {
+    key = 'z'
+    ,
+    next = 'j'
+    ,
+    prev = 'k'
+  }
+  nmap(ortography.key .. ortography.next, ']s')
+  nmap(ortography.key .. ortography.prev, '[s')
+end
+
 M.setLspKeyBinds = function()
   nmap('gp', ":lua vim.diagnostic.goto_prev()<CR>")
   nmap('gn', ":lua vim.diagnostic.goto_next()<CR>")
@@ -18,6 +31,7 @@ end
 M.setAll = function()
   M.setLspKeyBinds()
   M.setWindowMovementKeyBinds()
+  M.setOrtographyKeybindings()
 end
 
 return M
