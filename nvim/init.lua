@@ -5,10 +5,3 @@ require('cmp_config')
 require('keybinds').setAll()
 
 vim.g.purescript_unicode_conceal_enable = 1
-
--- sign_icons = {
---   error = '✘',
---   warn = '▲',
---   hint = '⚑',
---   info = ''
--- }

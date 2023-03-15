@@ -80,6 +80,19 @@ M.init_python = function()
   require 'lspconfig'.pylsp.setup {}
 end
 
+M.lsp_symbols = function()
+  local signs = {
+    Error = '✘',
+    Warn = '▲',
+    Hint = '⚑',
+    Info = ''
+  }
+  for type, icon in pairs(signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+  end
+end
+
 M.setAll = function()
   M.init_c()
   M.init_haskell()
