@@ -62,4 +62,7 @@ return require('packer').startup(function()
 
   -- finally added fugitive
   use "tpope/vim-fugitive"
+
+  -- python Lark files
+  use 'chanicpanic/vim-lark-syntax'
 end)
