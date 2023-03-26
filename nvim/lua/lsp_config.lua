@@ -77,7 +77,19 @@ M.init_purescript = function()
 end
 
 M.init_python = function()
-  require 'lspconfig'.pylsp.setup {}
+  require 'lspconfig'.pylsp.setup {
+    settings = {
+      pylsp = {
+        plugins = {
+          black = {
+            enable = true
+            ,
+            line_length = 80
+          }
+        }
+      }
+    }
+  }
 end
 
 M.lsp_symbols = function()
