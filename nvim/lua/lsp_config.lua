@@ -16,7 +16,12 @@ M.init_haskell = function()
     cmd = { 'haskell-language-server', '--lsp' }
     , settings = {
     haskell = {
-      formattingProvider = "fourmolu"
+      formattingProvider = "fourmolu",
+      fourmolu = {
+        config = {
+          external = true
+        }
+      }
     }
   }
   , on_attach = completion_callback

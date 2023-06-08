@@ -12,14 +12,14 @@ vim.api.nvim_create_autocmd({ "BufWritePre" },
 
 -- depends on zfc and an available hoogle instance
 
-vim.api.nvim_create_autocmd({ "BufWritePre" },
-  {
-    pattern = "*.hs"
-    ,
-    callback =
-        function()
-          vim.api.nvim_set_keymap('<buffer>gf', ':execute ":Hoogle " . expand(\'<cword>\')<esc>')
-        end
-    ,
-    group = autocmd_group
-  })
+-- vim.api.nvim_create_autocmd({ "BufWritePre" },
+--   {
+--     pattern = "*.hs"
+--     ,
+--     callback =
+--         function()
+--           vim.api.nvim_set_keymap('<buffer>gf', ':execute ":Hoogle " . expand(\'<cword>\')<esc>')
+--         end
+--     ,
+--     group = autocmd_group
+--   })
