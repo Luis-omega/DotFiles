@@ -88,6 +88,11 @@ input type:keyboard {
   xkb_layout es
 }
 
+input type:touchpad {
+ tap enabled
+ natural_scroll enabled
+}
+
 ### Key bindings
 
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
