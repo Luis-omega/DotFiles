@@ -36,10 +36,9 @@ return require('packer').startup(function()
     , { 'hrsh7th/cmp-nvim-lsp' }
   , { 'hrsh7th/cmp-buffer' }
   , { 'hrsh7th/cmp-path' }
-  --, { 'hrsh7th/cmp-cmdline' }
-  --
+  , { 'hrsh7th/cmp-cmdline' }
   , { 'L3MON4D3/LuaSnip' }
-    --, { 'saadparwaiz1/cmp_luasnip' }
+  , { 'saadparwaiz1/cmp_luasnip' }
   },
     commit = "777450fd0ae289463a14481673e26246b5e38bf2"
   }
