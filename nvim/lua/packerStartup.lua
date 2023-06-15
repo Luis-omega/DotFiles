@@ -50,6 +50,7 @@ return require('packer').startup(function()
 --   },
 --   }
   use {'ms-jpq/coq_nvim', branch='coq'}
+  use {'ms-jpq/coq.artifacts', branch= 'artifacts'}
   -- Latex
   use 'KeitaNakamura/tex-conceal.vim'
 
