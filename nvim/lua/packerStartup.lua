@@ -29,28 +29,28 @@ return require('packer').startup(function()
   use 'https://gitlab.com/yorickpeterse/nvim-window.git'
 
   -- autocompletion and snippets
---   use {
---     'hrsh7th/nvim-cmp'
---     , requires = {
---     { 'neovim/nvim-lspconfig' }
---     ,
---     { 'hrsh7th/cmp-nvim-lsp' }
---     ,
---     { 'hrsh7th/cmp-buffer' }
---     ,
---     { 'hrsh7th/cmp-path' }
---     ,
---     { 'hrsh7th/cmp-cmdline' }
---     ,
---     { 'L3MON4D3/LuaSnip' }
---     ,
---     { 'saadparwaiz1/cmp_luasnip' }
---     ,
---     commit = "98d5d0583c461752a8e917d0ec6b98466083dd23"
---   },
---   }
-  use {'ms-jpq/coq_nvim', branch='coq'}
-  use {'ms-jpq/coq.artifacts', branch= 'artifacts'}
+  --   use {
+  --     'hrsh7th/nvim-cmp'
+  --     , requires = {
+  --     { 'neovim/nvim-lspconfig' }
+  --     ,
+  --     { 'hrsh7th/cmp-nvim-lsp' }
+  --     ,
+  --     { 'hrsh7th/cmp-buffer' }
+  --     ,
+  --     { 'hrsh7th/cmp-path' }
+  --     ,
+  --     { 'hrsh7th/cmp-cmdline' }
+  --     ,
+  --     { 'L3MON4D3/LuaSnip' }
+  --     ,
+  --     { 'saadparwaiz1/cmp_luasnip' }
+  --     ,
+  --     commit = "98d5d0583c461752a8e917d0ec6b98466083dd23"
+  --   },
+  --   }
+  use { 'ms-jpq/coq_nvim', branch = 'coq' }
+  use { 'ms-jpq/coq.artifacts', branch = 'artifacts' }
   -- Latex
   use 'KeitaNakamura/tex-conceal.vim'
 
@@ -74,4 +74,7 @@ return require('packer').startup(function()
 
   -- python Lark files
   use 'chanicpanic/vim-lark-syntax'
+
+  -- Aiken
+  use 'aiken-lang/editor-integration-nvim'
 end)
