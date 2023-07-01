@@ -66,4 +66,7 @@ return require('packer').startup(function()
 
   -- python Lark files
   use 'chanicpanic/vim-lark-syntax'
+
+  use 'andy-morris/happy.vim'
+  use 'andy-morris/alex.vim'
 end)
