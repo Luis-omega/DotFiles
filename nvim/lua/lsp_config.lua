@@ -165,6 +165,12 @@ M.init_python = function()
   }
 end
 
+M.init_aiken = function()
+  require 'lspconfig'.aiken.setup {
+    cmd = { 'aiken', 'lsp' }
+  }
+end
+
 M.lsp_symbols = function()
   local signs = {
     Error = '✘',
@@ -185,6 +191,7 @@ M.setAll = function()
   M.init_lua()
   M.init_purescript()
   M.init_python()
+  M.init_aiken()
 end
 
 return M

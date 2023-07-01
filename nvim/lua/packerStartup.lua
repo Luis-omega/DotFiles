@@ -43,6 +43,9 @@ return require('packer').startup(function()
     commit = "777450fd0ae289463a14481673e26246b5e38bf2"
   }
 
+--  use { 'ms-jpq/coq_nvim', branch = 'coq' }
+--  use { 'ms-jpq/coq.artifacts', branch = 'artifacts' }
+
   -- Latex
   use 'KeitaNakamura/tex-conceal.vim'
 
@@ -69,4 +72,7 @@ return require('packer').startup(function()
 
   use 'andy-morris/happy.vim'
   use 'andy-morris/alex.vim'
+  
+  -- Aiken
+  use 'aiken-lang/editor-integration-nvim'
 end)
