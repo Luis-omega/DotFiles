@@ -1,5 +1,21 @@
 nvim/plugin
 nvim/.netrwhist
+nvim/dist-newstyle/
+nvim/.mypy_cache
+Thunar
+cachix
+chromium
+configstore
+dconf
+gtk-3.0
+libreoffice
+light
+mimeapps.list
+nix
+pavucontrol.ini
+pikaur.conf
+pulse
+xfce4
 chromium  
 dconf  
 libreoffice  
@@ -7,3 +23,4 @@ nix
 pavucontrol.ini  
 pikaur.conf  
 pulse 
+ghc/
