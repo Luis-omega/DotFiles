@@ -13,7 +13,7 @@ M.init_haskell = function()
   }
   }
   require 'lspconfig'.hls.setup {
-    cmd = { 'haskell-language-server', '--lsp' }
+    cmd = { 'haskell-language-server-wrapper', '--lsp' }
     , settings = {
     haskell = {
       formattingProvider = "fourmolu",

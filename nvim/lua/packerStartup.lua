@@ -77,4 +77,7 @@ return require('packer').startup(function()
 
   -- Aiken
   use 'aiken-lang/editor-integration-nvim'
+
+  -- Happy Haskell
+  use "andy-morris/happy.vim"
 end)
