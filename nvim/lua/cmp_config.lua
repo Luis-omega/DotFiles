@@ -7,12 +7,13 @@ local has_words_before = function()
 end
 
 local cmp = require 'cmp'
+local luasnip = require("luasnip")
 
 cmp.setup({
   snippet = {
     -- REQUIRED - you must specify a snippet engine
     expand = function(args)
-      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+      luasnip.lsp_expand(args.body) -- For `luasnip` users.
     end,
   },
   window = {
@@ -25,6 +26,17 @@ cmp.setup({
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ['½'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+        -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+        -- that way you will only jump inside the snippet region
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
     ['<Tab>'] = function(fallback)
       if not cmp.select_next_item() then
         if vim.bo.buftype ~= 'prompt' and has_words_before() then
@@ -34,6 +46,17 @@ cmp.setup({
         end
       end
     end,
+
+    ['<S-Tab>'] = function(fallback)
+      if not cmp.select_prev_item() then
+        if vim.bo.buftype ~= 'prompt' and has_words_before() then
+          cmp.complete()
+        else
+          fallback()
+        end
+      end
+    end,
+
   }),
   sources = cmp.config.sources({
     { name = 'buffer' },
@@ -41,10 +64,11 @@ cmp.setup({
   }, {
   })
   ,
-  completion = {
-    autocomplete = true
-    ,
-  }
+
+  -- completion = {
+  --   autocomplete = false
+  --   ,
+  -- }
 })
 
 -- Set configuration for specific filetype.
@@ -76,7 +100,7 @@ cmp.setup.cmdline(':', {
 
 -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-for _, lang in ipairs { 'hls', 'texlab', 'lua_ls', 'purescriptls', 'pylsp' } do
+for _, lang in ipairs { 'hls', 'texlab', 'lua_ls', 'purescriptls', 'pylsp', 'rust_analyzer' } do
   require('lspconfig')[lang].setup {
     capabilities = capabilities
   }

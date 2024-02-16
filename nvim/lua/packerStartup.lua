@@ -16,6 +16,16 @@ return require('packer').startup(function()
 
   use 'monkoose/fzf-hoogle.vim'
 
+  -- Idris
+  use {
+    'ShinKage/idris2-nvim',
+    requires = { 'neovim/nvim-lspconfig', 'MunifTanjim/nui.nvim' }
+  }
+
+  use {
+    "edwinb/idris2-vim"
+  }
+
   -- file tree
   use {
     'kyazdani42/nvim-tree.lua',
@@ -40,8 +50,9 @@ return require('packer').startup(function()
   , { 'L3MON4D3/LuaSnip' }
   , { 'saadparwaiz1/cmp_luasnip' }
   },
-    commit = "777450fd0ae289463a14481673e26246b5e38bf2"
+    -- commit = "777450fd0ae289463a14481673e26246b5e38bf2"
   }
+  use "rafamadriz/friendly-snippets"
 
   --  use { 'ms-jpq/coq_nvim', branch = 'coq' }
   --  use { 'ms-jpq/coq.artifacts', branch = 'artifacts' }
@@ -75,5 +86,5 @@ return require('packer').startup(function()
   use 'andy-morris/alex.vim'
 
   -- Aiken
-  use 'aiken-lang/editor-integration-nvim'
+  -- use 'aiken-lang/editor-integration-nvim'
 end)

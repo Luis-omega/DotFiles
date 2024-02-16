@@ -133,6 +133,62 @@ M.init_lua = function()
   require 'lspconfig'.lua_ls.setup(require("lsp-configs.lua"))
 end
 
+M.init_idris = function()
+  -- require 'lspconfig'.idris2_lsp.setup(require("lsp-configs.lua"))
+  local lspconfig = require('lspconfig')
+  local autostart_semantic_highlightning = true
+  lspconfig.idris2_lsp.setup {
+    on_new_config = function(new_config, new_root_dir)
+      new_config.capabilities['workspace']['semanticTokens'] = { refreshSupport = true }
+    end,
+    on_attach = function(client)
+      if autostart_semantic_highlightning then
+        vim.lsp.buf_request(0, 'textDocument/semanticTokens/full',
+          { textDocument = vim.lsp.util.make_text_document_params() }, nil)
+      end
+      -- Example of how to request a single kind of code action with a keymap,
+      -- refer to the table in the README for the appropriate key for each command.
+      vim.cmd [[nnoremap <Leader>cs <Cmd>lua vim.lsp.buf.code_action({diagnostics={},only={"refactor.rewrite.CaseSplit"}})<CR>]]
+      vim.cmd [[nnoremap <Leader>cd <Cmd>lua vim.lsp.buf.code_action({diagnostics={},only={"refactor.rewrite.GenerateDef"}})<CR>]]
+      --custom_attach(client) -- remove this line if you don't have a customized attach function
+    end,
+    autostart = true,
+    handlers = {
+      ['workspace/semanticTokens/refresh'] = function(err, params, ctx, config)
+        if autostart_semantic_highlightning then
+          vim.lsp.buf_request(0, 'textDocument/semanticTokens/full',
+            { textDocument = vim.lsp.util.make_text_document_params() }, nil)
+        end
+        return vim.NIL
+      end,
+      ['textDocument/semanticTokens/full'] = function(err, result, ctx, config)
+        -- temporary handler until native support lands
+        local bufnr = ctx.bufnr
+        local client = vim.lsp.get_client_by_id(ctx.client_id)
+        local legend = client.server_capabilities.semanticTokensProvider.legend
+        local token_types = legend.tokenTypes
+        local data = result.data
+
+        local ns = vim.api.nvim_create_namespace('nvim-lsp-semantic')
+        vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+        local tokens = {}
+        local prev_line, prev_start = nil, 0
+        for i = 1, #data, 5 do
+          local delta_line = data[i]
+          prev_line = prev_line and prev_line + delta_line or delta_line
+          local delta_start = data[i + 1]
+          prev_start = delta_line == 0 and prev_start + delta_start or delta_start
+          local token_type = token_types[data[i + 3] + 1]
+          local line = vim.api.nvim_buf_get_lines(bufnr, prev_line, prev_line + 1, false)[1]
+          local byte_start = vim.str_byteindex(line, prev_start)
+          local byte_end = vim.str_byteindex(line, prev_start + data[i + 2])
+          vim.api.nvim_buf_add_highlight(bufnr, ns, 'LspSemantic_' .. token_type, prev_line, byte_start, byte_end)
+        end
+      end
+    },
+  }
+end
+
 M.init_purescript = function()
   require 'lspconfig'.purescriptls.setup {
     on_attach = completion_callback,
@@ -155,9 +211,15 @@ M.init_python = function()
       pylsp = {
         plugins = {
           black = {
-            enable = true
+            enabled = true
             ,
-            line_length = 80
+            line_length = 80,
+          },
+          rope_autoimport = {
+            enabled = true
+          },
+          rope_completion = {
+            enabled = true
           }
         }
       }
@@ -171,6 +233,40 @@ M.init_aiken = function()
   }
 end
 
+M.init_ltex = function()
+  local dictionary = {}
+  dictionary["en-GB"] = {
+    "Arweave", "UTxO", "UTxOs", "TODO", "onchain", "DeNS"
+  , "IPFS", "Plutus" }
+  require 'lspconfig'.ltex.setup {
+    settings = {
+      ltex = {
+        language = "en-GB",
+        additionalRules = {
+          languageModel = '~/ngrams/',
+          motherTongue = "es",
+          enablePickyRules = true,
+          completionEnabled = true,
+        },
+        dictionary = dictionary
+      },
+    },
+  }
+end
+
+M.init_rust = function()
+  require 'lspconfig'.rust_analyzer.setup {
+    settings = {
+      ['rust-analyzer'] = {
+        diagnostics = {
+          enable = false,
+        }
+      }
+    }
+  }
+end
+
+
 M.lsp_symbols = function()
   local signs = {
     Error = '✘',
@@ -178,10 +274,36 @@ M.lsp_symbols = function()
     Hint = '⚑',
     Info = ''
   }
-  for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+  -- TODO: enable when we upgrade neovim
+  prefix_format = function(diagnostic, indext, total)
+    if diagnostic == vim.diagnostics.serverity.ERROR then
+      return signs["Error"]
+    end
+    if diagnostic == vim.diagnostics.serverity.WARN then
+      return signs["Warn"]
+    end
+    if diagnostic == vim.diagnostics.serverity.INFO then
+      return signs["Info"]
+    end
+    if diagnostic == vim.diagnostics.serverity.HINT then
+      return signs["Hint"]
+    end
   end
+  vim.diagnostic.config({
+    virtual_text = {
+      prefix = signs["Error"],
+      source = "if_many",
+      severity_sort = true,
+      float = {
+        source = "if_many",
+        severity_sort = true,
+      }
+    }
+  })
+end
+
+M.init_typescript = function()
+  require 'lspconfig'.tsserver.setup { cmd = { "npx", "typescript-language-server", "--stdio" } }
 end
 
 M.setAll = function()
@@ -192,6 +314,10 @@ M.setAll = function()
   M.init_purescript()
   M.init_python()
   M.init_aiken()
+  M.init_idris()
+  M.init_ltex()
+  M.init_typescript()
+  M.lsp_symbols()
 end
 
 return M

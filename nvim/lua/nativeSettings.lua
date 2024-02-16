@@ -29,7 +29,7 @@ function nativeSettings.setRegularPropertyes()
   vim.o.spelllang = "en"
   vim.o.spell = true
   -- is at the top left of my corne keyboard
-  vim.g.mapleader = "½"
+  vim.g.mapleader = ","
   -- mostly for vimtext but i can use it widely in my code
   vim.cmd("set conceallevel=2")
   -- popup menu options (transparency and height)
@@ -63,7 +63,6 @@ function nativeSettings.rememberLastPosition()
       command = command1 .. command2
     })
 end
-
 
 function nativeSettings.setMyDefaultSettings()
   nativeSettings.setRegularPropertyes()

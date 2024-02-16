@@ -4,6 +4,11 @@ local function nmap(command, value)
   vim.api.nvim_set_keymap('n', command, value, { noremap = true })
 end
 
+function M.setLeader()
+  vim.g.mapleader = ","
+  nmap("<leader>c", ":lua vim.lsp.buf.code_action()<CR>")
+end
+
 function M.setOrtographyKeybindings()
   -- TODO : make them configurable maybe?
   local ortography = {
@@ -29,6 +34,7 @@ M.setWindowMovementKeyBinds = function()
 end
 
 M.setAll = function()
+  M.setLeader()
   M.setLspKeyBinds()
   M.setWindowMovementKeyBinds()
   M.setOrtographyKeybindings()
