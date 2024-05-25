@@ -1,3 +1,4 @@
+vim.cmd.colorscheme('vim')
 require("nativeSettings").setMyDefaultSettings()
 require('packerStartup')
 require('lsp_config').setAll()

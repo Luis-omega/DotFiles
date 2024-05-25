@@ -79,7 +79,7 @@ return require('packer').startup(function()
   use "tpope/vim-fugitive"
 
   -- python Lark files
-  use 'chanicpanic/vim-lark-syntax'
+  -- use 'chanicpanic/vim-lark-syntax'
 
   -- for parser and lexing in Haskell
   use 'andy-morris/happy.vim'
