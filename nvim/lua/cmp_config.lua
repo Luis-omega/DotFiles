@@ -27,11 +27,7 @@ cmp.setup({
     ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     ['½'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-        -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-        -- that way you will only jump inside the snippet region
-      elseif luasnip.expand_or_jumpable() then
+      if luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
       else
         fallback()
@@ -113,3 +109,5 @@ for _, lang in ipairs { 'hls', 'texlab', 'lua_ls', 'purescriptls', 'pylsp', 'rus
     capabilities = capabilities
   }
 end
+
+require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/LuaSnip/" })
