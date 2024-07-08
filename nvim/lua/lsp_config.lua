@@ -133,6 +133,10 @@ M.init_lua = function()
   require 'lspconfig'.lua_ls.setup(require("lsp-configs.lua"))
 end
 
+M.init_coq = function()
+  require 'lspconfig'.coq_lsp.setup {}
+end
+
 M.init_idris = function()
   -- require 'lspconfig'.idris2_lsp.setup(require("lsp-configs.lua"))
   local lspconfig = require('lspconfig')
@@ -317,6 +321,7 @@ M.setAll = function()
   M.init_idris()
   M.init_ltex()
   M.init_typescript()
+  M.init_coq()
   M.lsp_symbols()
 end
 
