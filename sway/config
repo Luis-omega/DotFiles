@@ -8,7 +8,9 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 # I don't know if this is needed anymore but it was for mozilla
 exec export MOZ_ENABLE_WAYLAND=0
 exec waybar
-#exec paplay ~/Descargas/glados_welcome.wav
+
+# Start sound 
+exec paplay ~/.local/share/glados_welcome.wav
 
 ### Variables
 #
@@ -28,21 +30,17 @@ exec wl-paste -t text --watch clipman store --no-persist
 # polkit agent for thunar and others
 exec /usr/lib/polkit-kde-authentication-agent-1
 
-# don't remember why we need this here
+# This make the menu to float!
 for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
 
 
-# Start sound 
-#exec ~/.bin/start/sound.sh
-#bindsym $mod+z exec ~/.bin/start/sound.sh
-
-# Thunar daeomon
+# Thunar daemon
 exec thunar --daemon
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output "*" bg ~/Downloads/background.jpg fill
+output "*" bg ~/.local/share/background.jpg fill
 
 
 #I don't really like sway to go idle.
