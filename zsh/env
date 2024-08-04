@@ -1,0 +1,19 @@
+# Added by cargo
+. "$HOME/.cargo/env"
+
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+export PROJECTS_DIR="$HOME/projects"
+export WORK_DIR="$HOME/work"
+
+
+export EDITOR="nvim"
+export VISUAL="vim"
+
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+
+export HISTFILE="$ZDOTDIR/history"    # History filepath
+export HISTSIZE=100000                   # Maximum events for internal history
+export SAVEHIST=100000                   # Maximum events in history file

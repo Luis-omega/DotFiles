@@ -24,3 +24,6 @@ pavucontrol.ini
 pikaur.conf  
 pulse 
 ghc/
+zsh/history
+zsh/.zdirs
+zsh/.zcompdump
