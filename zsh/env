@@ -17,3 +17,8 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export HISTFILE="$ZDOTDIR/history"    # History filepath
 export HISTSIZE=100000                   # Maximum events for internal history
 export SAVEHIST=100000                   # Maximum events in history file
+
+# My personal folder for my local scripts
+path+=("${HOME}/.bin")
+export PATH
+systemctl --user import-environment PATH

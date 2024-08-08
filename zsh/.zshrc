@@ -72,10 +72,6 @@ function run(){
 # Added by ghcup on install
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
 
-# My personal folder for my local scripts
-path+=("${HOME}/.bin")
-export PATH
-
 # Better up/down keys completion
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
