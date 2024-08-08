@@ -3,6 +3,11 @@ setopt beep
 unsetopt autocd
 bindkey -v
 # End of lines configured by zsh-newuser-install
+#
+# My personal folder for my local scripts
+path+=("${HOME}/.bin")
+export PATH
+systemctl --user import-environment PATH
 
 function to_project(){
   cd "$PROJECTS_DIR/$1"
