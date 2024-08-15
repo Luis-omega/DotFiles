@@ -87,4 +87,7 @@ return require('packer').startup(function()
 
   -- Aiken
   -- use 'aiken-lang/editor-integration-nvim'
+
+  -- SyntaxRange
+  use 'vim-scripts/SyntaxRange'
 end)
