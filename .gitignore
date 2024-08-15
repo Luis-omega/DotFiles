@@ -27,3 +27,4 @@ ghc/
 zsh/history
 zsh/.zdirs
 zsh/.zcompdump
+zsh/.cache

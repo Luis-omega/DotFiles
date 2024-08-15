@@ -21,6 +21,10 @@ function enable_nix_env(){
   nix develop -c zsh
 }
 
+function compilador(){
+  to_project "octizys"
+}
+
 function lambda(){
   to_project "Lambda"
 }
