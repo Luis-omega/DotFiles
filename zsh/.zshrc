@@ -2,7 +2,12 @@
 setopt beep
 unsetopt autocd
 bindkey -v
+setopt beep
 # End of lines configured by zsh-newuser-install
+zstyle :compinstall filename '/home/omega16/.zshrc'
+
+autoload -Uz compinit
+compinit
 #
 # My personal folder for my local scripts
 path+=("${HOME}/.bin")
