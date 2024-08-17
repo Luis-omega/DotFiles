@@ -241,7 +241,7 @@ M.init_ltex = function()
   local dictionary = {}
   dictionary["en-GB"] = {
     "Arweave", "UTxO", "UTxOs", "TODO", "onchain", "DeNS"
-  , "IPFS", "Plutus" }
+  , "IPFS", "Plutus", "Daiyatsu" }
   require 'lspconfig'.ltex.setup {
     settings = {
       ltex = {
