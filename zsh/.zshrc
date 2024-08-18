@@ -26,6 +26,10 @@ function enable_nix_env(){
   nix develop -c zsh
 }
 
+function dai(){
+  to_project "Daiyatsu"
+}
+
 function compilador(){
   to_project "octizys"
 }
