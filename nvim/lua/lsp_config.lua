@@ -278,31 +278,47 @@ M.lsp_symbols = function()
     Hint = '⚑',
     Info = ''
   }
-  -- TODO: enable when we upgrade neovim
-  prefix_format = function(diagnostic, indext, total)
-    if diagnostic == vim.diagnostics.serverity.ERROR then
+  local prefix_format = function(diagnostic, _indext, _total)
+    if (diagnostic == nil or diagnostic.severity == nil) then
       return signs["Error"]
     end
-    if diagnostic == vim.diagnostics.serverity.WARN then
+    print("reached format")
+    if diagnostic.severity == vim.diagnostic.severity.ERROR then
+      return signs["Error"]
+    end
+    if diagnostic.severity == vim.diagnostic.severity.WARN then
       return signs["Warn"]
     end
-    if diagnostic == vim.diagnostics.serverity.INFO then
+    if diagnostic.severity == vim.diagnostic.severity.INFO then
       return signs["Info"]
     end
-    if diagnostic == vim.diagnostics.serverity.HINT then
+    if diagnostic.severity == vim.diagnostic.severity.HINT then
       return signs["Hint"]
     end
   end
   vim.diagnostic.config({
     virtual_text = {
-      prefix = signs["Error"],
+      prefix = prefix_format,
       source = "if_many",
       severity_sort = true,
       float = {
         source = "if_many",
         severity_sort = true,
       }
+    },
+    float = {
+      severity_sort = true,
+      prefix = prefix_format
+    },
+    signs = {
+      text = {
+        [vim.diagnostic.severity.ERROR] = signs["Error"],
+        [vim.diagnostic.severity.WARN] = signs["Warn"],
+        [vim.diagnostic.severity.INFO] = signs["Info"],
+        [vim.diagnostic.severity.HINT] = signs["Hint"],
+      }
     }
+
   })
 end
 
