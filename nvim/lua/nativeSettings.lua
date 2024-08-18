@@ -28,8 +28,6 @@ function nativeSettings.setRegularPropertyes()
   -- If im intensively working in spanish I set this to es
   vim.o.spelllang = "en"
   vim.o.spell = true
-  -- is at the top left of my corne keyboard
-  vim.g.mapleader = ","
   -- mostly for vimtext but i can use it widely in my code
   vim.cmd("set conceallevel=2")
   -- popup menu options (transparency and height)

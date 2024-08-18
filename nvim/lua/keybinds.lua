@@ -5,8 +5,7 @@ local function nmap(command, value)
 end
 
 function M.setLeader()
-  vim.g.mapleader = ","
-  nmap("<leader>c", ":lua vim.lsp.buf.code_action()<CR>")
+  vim.g.mapleader = " "
 end
 
 function M.setOrtographyKeybindings()
@@ -23,14 +22,16 @@ function M.setOrtographyKeybindings()
 end
 
 M.setLspKeyBinds = function()
-  nmap('gp', ":lua vim.diagnostic.goto_prev()<CR>")
-  nmap('gn', ":lua vim.diagnostic.goto_next()<CR>")
-  nmap('gh', ":lua vim.lsp.buf.hover()<CR>")
-  nmap('gd', ":lua vim.lsp.buf.definition()<CR>")
+  nmap("<leader>c", ":lua vim.lsp.buf.code_action()<CR>")
+  nmap('<leader>p', ":lua vim.diagnostic.goto_prev()<CR>")
+  nmap('<leader>n', ":lua vim.diagnostic.goto_next()<CR>")
+  nmap('<leader>h', ":lua vim.lsp.buf.hover()<CR>")
+  nmap('<leader>d', ":lua vim.lsp.buf.definition()<CR>")
+  nmap('<leader>r', ":lua vim.lsp.buf.rename()<CR>")
 end
 
 M.setWindowMovementKeyBinds = function()
-  nmap('<C-D>', ':lua require(\'nvim-window\').pick()<CR>')
+  nmap('<leader>w', ':lua require(\'nvim-window\').pick()<CR>')
 end
 
 M.setAll = function()
