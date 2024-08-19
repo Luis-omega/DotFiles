@@ -12,3 +12,5 @@ end
 map("gn", ":CoqNext<CR>")
 map("gp", ":CoqUndo<CR>")
 map("gl", ":CoqToLine<CR>")
+vim.g.coqtail_noimap = true;
+vim.g.coqtail_nomap = true;
