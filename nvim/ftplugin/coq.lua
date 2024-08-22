@@ -92,3 +92,12 @@ end
 
 -- nvim_buf_set_lines gave an error when we pass a function.
 vim.keymap.set('n', "<leader>f", format_parens, { buffer = true, noremap = true })
+
+local restart_lsp_and_coqtail = function()
+  vim.cmd(":make")
+  vim.cmd(":CoqStop")
+  vim.cmd(":LspRestart")
+  vim.cmd(":CoqToLine")
+end
+
+vim.keymap.set('n', "<leader>k", restart_lsp_and_coqtail, { buffer = true, noremap = true })
