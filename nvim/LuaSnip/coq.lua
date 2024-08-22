@@ -1,6 +1,5 @@
 local ls = require("luasnip")
 return {
-  -- A snippet that expands the trigger "hi" into the string "Hello, world!".
   s(
     { trig = "match" },
     {
@@ -78,7 +77,94 @@ return {
     , i(3)
     , t({ ".", "Proof.", "" })
     , i(4)
-    , t({ "", "Admitted." })
+    , t({ "", "Admitted.", "" })
+    }
+  ),
+  s(
+    {
+      trig = "des",
+    },
+    {
+      t({ "destruct (", "  " })
+      , i(1)
+    , t({ "  ", ") as [", "  " })
+    , i(2)
+    , t({ "", "]" })
+    , t({ ".", "" })
+    }
+  ),
+  s(
+    {
+      trig = "desn",
+    },
+    {
+      t({ "destruct (", "  " })
+      , i(1)
+    , t({ "  ", ") as [", "  " })
+    , i(2)
+    , t({ "", "] eqn:H" })
+    , i(3)
+    , t({ ".", "" })
+    }
+  ),
+  s(
+    {
+      trig = "pose",
+    },
+    {
+      t({ "pose (", "  " })
+      , i(1)
+    , t({ "", ") as " })
+    , i(2)
+    , t({ ".", "" })
+    }
+  ),
+  s(
+    {
+      trig = "ass",
+    },
+    {
+      t({ "assert (", "  " })
+      , i(1)
+    , t({ "", ") as H" })
+    , i(2)
+    , t({ ".", "{", "  " })
+    , i(3)
+    , t({ "", "}", "" })
+    }
+  ),
+  s(
+    {
+      trig = "eno",
+    },
+    {
+      t({ "enough (", "  " })
+      , i(1)
+    , t({ "", ") as H" })
+    , i(2)
+    , t({ ".", "{", "  " })
+    , i(3)
+    , t({ "", "}", "" })
+    }
+  ),
+  s(
+    {
+      trig = "app",
+    },
+    {
+      t({ "apply (", "  " })
+      , i(1)
+    , t({ "", ").", "" })
+    }
+  ),
+  s(
+    {
+      trig = "eap",
+    },
+    {
+      t({ "eapply (", "  " })
+      , i(1)
+    , t({ "", ").", "" })
     }
   ),
 }
