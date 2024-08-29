@@ -5,6 +5,7 @@ local function nmap(command, value)
 end
 
 function M.setLeader()
+  vim.keymap.set("n", " ", "<Nop>", { silent = true, remap = false })
   vim.g.mapleader = " "
 end
 
