@@ -14,6 +14,10 @@ path+=("${HOME}/.bin")
 export PATH
 systemctl --user import-environment PATH
 
+function clean(){
+  printf '\033[2J\033[3J\033[1;1H'
+}
+
 function to_project(){
   cd "$PROJECTS_DIR/$1"
 }
@@ -30,7 +34,12 @@ function dai(){
   to_project "Daiyatsu"
 }
 
-function compilador(){
+function jam(){
+  to_project "jam-cope"
+  enable_nix_env
+}
+
+function oct(){
   to_project "octizys"
 }
 
@@ -67,7 +76,7 @@ function make_with_git_root(){
   root=$(git rev-parse --show-toplevel 2>/dev/null)
   if [[ $? -ne 0 ]] then
     echo "can't find git root"
-  else 
+  else
     echo "hi $root"
     #make $1 -C $root
     npm run $1
@@ -82,9 +91,9 @@ function build(){
   make_with_git_root "build"
 }
 
-function run(){
-  make_with_git_root "run"
-}
+#function run(){
+#  make_with_git_root "run"
+#}
 
 
 # Added by ghcup on install
