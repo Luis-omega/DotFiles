@@ -9,7 +9,9 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 exec export MOZ_ENABLE_WAYLAND=0
 exec waybar
 
-# Start sound 
+exec ~/.bin/audio_pair
+
+# Start sound
 exec paplay ~/.local/share/glados_welcome.wav
 
 ### Variables
@@ -32,7 +34,6 @@ exec /usr/lib/polkit-kde-authentication-agent-1
 
 # This make the menu to float!
 for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
-
 
 # Thunar daemon
 exec thunar --daemon
@@ -57,7 +58,7 @@ output "*" bg ~/.local/share/background.jpg fill
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 
-#exec swayidle -w timeout 300 "swaylock --image ~/Downloads/Kamisama.Kazoku.full.263875.jpg"          
+#exec swayidle -w timeout 300 "swaylock --image ~/Downloads/Kamisama.Kazoku.full.263875.jpg"
 
 # Inhibit Idle if a window is fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
