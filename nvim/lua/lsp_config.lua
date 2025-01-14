@@ -1,13 +1,13 @@
 local M = {}
 
-M.init_c = function()
-  require 'lspconfig'.clangd.setup {}
+
+M.generate_c = function()
+  return {}
 end
 
-M.init_haskell = function()
+M.generate_haskell = function()
   local util = require 'lspconfig.util'
-  require 'lspconfig'.hls.setup
-  {
+  return {
     default_config = {
       cmd = { 'haskell-language-server-wrapper', '--lsp' },
       filetypes = { 'haskell', 'lhaskell' },
@@ -69,36 +69,11 @@ end
       },
     },
   }
-  --require 'lspconfig'.hls.setup {
-  --  cmd = { 'haskell-language-server', '--lsp' }
-  --  ,
-  --  filetypes = { 'haskell', 'lhaskell', 'tex.lhaskell', 'lhaskell.tex' }
-  --  ,
-  --  root_dir = require('lspconfig/util').root_pattern('*.cabal', 'stack.yaml', 'cabal.project', 'package.yaml',
-  --    'hie.yaml')
-  --  ,
-  --  settings = {
-  --    haskell = {
-  --      formattingProvider = "fourmolu"
-  --    }
-  --  }
-  --  ,
-  --  on_attach = completion_callback
-  --}
-  -- require 'lspconfig'.hls.setup {
-  --   cmd = { 'haskell-language-server', '--lsp' }
-  --   , settings = {
-  --   haskell = {
-  --     formattingProvider = "fourmolu"
-  --   }
-  -- }
-  -- , on_attach = completion_callback
-  -- }
 end
 
 
-M.init_latex = function()
-  require 'lspconfig'.texlab.setup {
+M.generate_latex = function()
+  return {
     filetypes = { 'tex', 'tex.lhaskell', 'lhaskell.tex', 'lhaskell' },
     settings = {
       texlab = {
@@ -125,23 +100,23 @@ M.init_latex = function()
         }
       }
     }
-    , on_attach = completion_callback
+    ,
+    on_attach = completion_callback
   }
 end
 
-M.init_lua = function()
-  require 'lspconfig'.lua_ls.setup(require("lsp-configs.lua"))
+M.generate_lua = function()
+  return require("lsp-configs.lua")
 end
 
-M.init_coq = function()
-  require 'lspconfig'.coq_lsp.setup {}
+M.generate_coq = function()
+  return {}
 end
 
-M.init_idris = function()
-  -- require 'lspconfig'.idris2_lsp.setup(require("lsp-configs.lua"))
+M.generate_idris = function()
   local lspconfig = require('lspconfig')
   local autostart_semantic_highlightning = true
-  lspconfig.idris2_lsp.setup {
+  return {
     on_new_config = function(new_config, new_root_dir)
       new_config.capabilities['workspace']['semanticTokens'] = { refreshSupport = true }
     end,
@@ -193,9 +168,8 @@ M.init_idris = function()
   }
 end
 
-M.init_purescript = function()
-  require 'lspconfig'.purescriptls.setup {
-    on_attach = completion_callback,
+M.generate_purescript = function()
+  return {
     settings = {
       purescript = {
         addSpagoSources = true -- e.g. any purescript language-server config here
@@ -209,8 +183,8 @@ M.init_purescript = function()
   }
 end
 
-M.init_python = function()
-  require 'lspconfig'.pylsp.setup {
+M.generate_python = function()
+  return {
     settings = {
       pylsp = {
         plugins = {
@@ -231,21 +205,44 @@ M.init_python = function()
   }
 end
 
-M.init_aiken = function()
-  require 'lspconfig'.aiken.setup {
+M.generate_aiken = function()
+  return {
     cmd = { 'aiken', 'lsp' }
   }
 end
 
-M.init_ltex = function()
+M.generate_ltex = function()
   local dictionary = {}
   dictionary["en-GB"] = {
-    "Arweave", "UTxO", "UTxOs", "TODO", "onchain", "DeNS"
-  , "IPFS", "Plutus", "Daiyatsu" }
-  require 'lspconfig'.ltex.setup {
+    "TODO", "onchain"
+  , "Daiyatsu", "newtype", "octizys", "Octizys", "FIXME", "REPL" }
+  local filetypes = {
+    "bib",
+    "gitcommit",
+    "markdown",
+    "org",
+    "plaintex",
+    "rst",
+    "rnoweb",
+    "tex",
+    "pandoc",
+    "rust",
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact",
+    "lua",
+    "python",
+    "html",
+    "lhaskell",
+  }
+  return {
+    filetypes = filetypes,
     settings = {
+      cmd = { "ltex-ls" },
       ltex = {
         language = "en-GB",
+        enabled = filetypes,
         additionalRules = {
           languageModel = '~/ngrams/',
           motherTongue = "es",
@@ -258,13 +255,15 @@ M.init_ltex = function()
   }
 end
 
-M.init_rust = function()
-  require 'lspconfig'.rust_analyzer.setup {
+M.generate_rust = function()
+  return {
     settings = {
+      filetypes = { "rust" },
       ['rust-analyzer'] = {
         diagnostics = {
           enable = false,
-        }
+        },
+        completion = { postfix = { enable = true }, autoimport = { enable = true } },
       }
     }
   }
@@ -322,23 +321,43 @@ M.lsp_symbols = function()
   })
 end
 
-M.init_typescript = function()
-  require 'lspconfig'.tsserver.setup { cmd = { "npx", "typescript-language-server", "--stdio" } }
+M.generate_typescript = function()
+  return { cmd = { "npx", "typescript-language-server", "--stdio" },
+  }
 end
 
-M.setAll = function()
-  M.init_c()
-  M.init_haskell()
-  M.init_latex()
-  M.init_lua()
-  M.init_purescript()
-  M.init_python()
-  M.init_aiken()
-  M.init_idris()
-  M.init_ltex()
-  M.init_typescript()
-  M.init_coq()
-  M.lsp_symbols()
+M.generate_koka = function()
+  return {}
 end
+
+
+M.configurations = {
+  -- ltex
+  ltex = { lsp = "ltex", config = M.generate_ltex() },
+  -- clangd
+  c = { lsp = "clangd", config = M.generate_c() },
+  -- hls
+  haskell = { lsp = "hls", config = M.generate_haskell() },
+  -- textlab
+  latex = { lsp = "textlab", config = M.generate_latex() },
+  -- lua_ls
+  lua = { lsp = "lua_ls", config = M.generate_lua() },
+  -- coq_lsp
+  coq = { lsp = "coq_lsp", config = M.generate_coq() },
+  -- idris2_lsp
+  idris = { lsp = "idris2_lsp", config = M.generate_idris() },
+  -- purescripttls
+  purescript = { lsp = "purescripttls", config = M.generate_purescript() },
+  -- pylsp
+  python = { lsp = "pylsp", config = M.generate_python() },
+  -- aiken
+  aiken = { lsp = "aiken", config = M.generate_aiken() },
+  -- rust_analyzer
+  rust = { lsp = "rust_analyzer", config = M.generate_rust() },
+  -- ts_ls
+  typescript = { lsp = "ts_ls", config = M.generate_typescript() },
+  -- koka
+  koka = { lsp = "koka", config = M.generate_koka() },
+}
 
 return M

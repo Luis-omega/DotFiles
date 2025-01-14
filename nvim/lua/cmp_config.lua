@@ -16,10 +16,32 @@ cmp.setup({
       luasnip.lsp_expand(args.body) -- For `luasnip` users.
     end,
   },
+  formatting = {
+    format = function(entry, vim_item)
+      vim_item.menu = entry.source.name
+      return vim_item
+    end,
+  },
   window = {
     completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
   },
+  --sorting = {
+  --  priority_weight = 1.0,
+  --  comparators = {
+  --    -- compare.score_offset, -- not good at all
+  --    cmp.config.compare.locality,
+  --    cmp.config.compare.recently_used,
+  --    cmp.config.compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
+  --    cmp.config.compare.offset,
+  --    cmp.config.compare.order,
+  --    -- compare.scopes, -- what?
+  --    -- compare.sort_text,
+  --    -- compare.exact,
+  --    -- compare.kind,
+  --    -- compare.length, -- useless
+  --  },
+  --},
   mapping = cmp.mapping.preset.insert({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -55,6 +77,7 @@ cmp.setup({
 
   }),
   sources = cmp.config.sources({
+    { name = 'nvim_lsp', priority = 10 },
     {
       name = 'buffer'
       ,
@@ -62,9 +85,11 @@ cmp.setup({
         get_bufnrs = function()
           return vim.api.nvim_list_bufs()
         end
+        ,
+        priority = 5
       }
     },
-    { name = 'nvim_lsp' },
+    { name = 'luasnip',  priority = 2 }
   }, {
   })
   ,
@@ -101,13 +126,29 @@ cmp.setup.cmdline(':', {
     { name = 'cmdline' }
   })
 })
+function dump(o)
+  if type(o) == 'table' then
+    local s = '{ '
+    for k, v in pairs(o) do
+      if type(k) ~= 'number' then k = '"' .. k .. '"' end
+      s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
+    end
+    return s .. '} '
+  else
+    return tostring(o)
+  end
+end
 
 -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-for _, lang in ipairs { 'hls', 'texlab', 'lua_ls', 'purescriptls', 'pylsp', 'rust_analyzer' } do
-  require('lspconfig')[lang].setup {
-    capabilities = capabilities
-  }
+local lsp_configurations = require('lsp_config').configurations
+for lang, config in pairs(lsp_configurations) do
+  local lsp = config['lsp']
+  local config = config['config']
+  config["capabilities"] = capabilities
+  require('lspconfig')[lsp].setup(config)
 end
+
+
 
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/LuaSnip/" })

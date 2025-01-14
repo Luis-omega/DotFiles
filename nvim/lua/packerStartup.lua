@@ -90,4 +90,40 @@ return require('packer').startup(function()
 
   -- SyntaxRange
   use 'vim-scripts/SyntaxRange'
+
+  -- Finally got convinced to try treesitter
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = function()
+      local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+      ts_update()
+    end,
+  }
+
+  use "qnighy/lalrpop.vim"
+
+  -- Local pluging to add file type for the language I'm working on
+  use {
+    '~/projects/vim-octizys'
+  }
+
+  -- Local pluging to add file type for koka
+  use {
+    '~/projects/vim-koka'
+  }
+
+  use {
+    "folke/tokyonight.nvim"
+  }
+
+  use {
+    "nvim-treesitter/nvim-treesitter-refactor"
+  }
+
+  use {
+    "jhofscheier/ltex-utils.nvim"
+  }
+  use {
+    "liangxianzhe/floating-input.nvim"
+  }
 end)
