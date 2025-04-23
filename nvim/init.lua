@@ -33,7 +33,7 @@ require('keybinds').setAll()
 vim.g.purescript_unicode_conceal_enable = 1
 -- I'm the creator and the default configuration
 -- is what I use
-require("vim-octizys").setup()
+-- require("vim-octizys").setup()
 
 local find_buffer_by_name = function(name)
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do

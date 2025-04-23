@@ -20,7 +20,7 @@ M.generate_haskell = function()
       single_file_support = true,
       settings = {
         haskell = {
-          formattingProvider = 'ormolu',
+          formattingProvider = 'fourmolu',
           cabalFormattingProvider = 'cabalfmt',
         },
       },
@@ -232,7 +232,7 @@ M.generate_ltex = function()
     "javascriptreact",
     "typescriptreact",
     "lua",
-    "python",
+    -- "python",
     "html",
     "lhaskell",
   }
@@ -338,8 +338,8 @@ M.configurations = {
   c = { lsp = "clangd", config = M.generate_c() },
   -- hls
   haskell = { lsp = "hls", config = M.generate_haskell() },
-  -- textlab
-  latex = { lsp = "textlab", config = M.generate_latex() },
+  -- texlab
+  latex = { lsp = "texlab", config = M.generate_latex() },
   -- lua_ls
   lua = { lsp = "lua_ls", config = M.generate_lua() },
   -- coq_lsp
@@ -347,7 +347,7 @@ M.configurations = {
   -- idris2_lsp
   idris = { lsp = "idris2_lsp", config = M.generate_idris() },
   -- purescripttls
-  purescript = { lsp = "purescripttls", config = M.generate_purescript() },
+  purescript = { lsp = "purescriptls", config = M.generate_purescript() },
   -- pylsp
   python = { lsp = "pylsp", config = M.generate_python() },
   -- aiken

@@ -103,14 +103,14 @@ return require('packer').startup(function()
   use "qnighy/lalrpop.vim"
 
   -- Local pluging to add file type for the language I'm working on
-  use {
-    '~/projects/vim-octizys'
-  }
+  -- use {
+  --   '~/projects/vim-octizys'
+  -- }
 
   -- Local pluging to add file type for koka
-  use {
-    '~/projects/vim-koka'
-  }
+  -- use {
+  --   '~/projects/vim-koka'
+  -- }
 
   use {
     "folke/tokyonight.nvim"
