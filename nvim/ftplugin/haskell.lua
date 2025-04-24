@@ -22,7 +22,7 @@ M.formatFourmolu = function()
   local filepath = vim.api.nvim_buf_get_name(bufnr)
 
   if vim.fn.executable("fourmolu") ~= 1 then
-    vim.notify("❌ fourmolu no está disponible en tu PATH", vim.log.levels.ERROR)
+    vim.notify("❌ fourmolu not found in PATH", vim.log.levels.ERROR)
     return
   end
 
@@ -42,7 +42,6 @@ M.formatFourmolu = function()
         vim.notify("✔️ Already formatted.", vim.log.levels.INFO)
       end)
     else
-      print("❌ Formatting failed! :\n" .. obj_check.stderr)
       vim.system({ "fourmolu", "--stdin-input-file", filepath }, {
         stdin = content,
       }, function(obj)
