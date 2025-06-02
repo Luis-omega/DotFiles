@@ -78,15 +78,10 @@ return require('packer').startup(function()
   -- finally added fugitive
   use "tpope/vim-fugitive"
 
-  -- python Lark files
-  -- use 'chanicpanic/vim-lark-syntax'
-
   -- for parser and lexing in Haskell
   use 'andy-morris/happy.vim'
   use 'andy-morris/alex.vim'
 
-  -- Aiken
-  -- use 'aiken-lang/editor-integration-nvim'
 
   -- SyntaxRange
   use 'vim-scripts/SyntaxRange'
@@ -103,14 +98,9 @@ return require('packer').startup(function()
   use "qnighy/lalrpop.vim"
 
   -- Local pluging to add file type for the language I'm working on
-  -- use {
-  --   '~/projects/vim-octizys'
-  -- }
-
-  -- Local pluging to add file type for koka
-  -- use {
-  --   '~/projects/vim-koka'
-  -- }
+  use {
+    '~/projects/vim-octizys'
+  }
 
   use {
     "folke/tokyonight.nvim"

@@ -1,4 +1,4 @@
--- vim.cmd.colorscheme('tokyonight-night')
+vim.cmd.colorscheme('tokyonight-night')
 vim.cmd [[
   highlight Normal guibg=none
   highlight NonText guibg=none
@@ -31,6 +31,7 @@ require("indent")
 require("user_treesitter")
 require('keybinds').setAll()
 require("nvim-tree").setup()
+--require('typos').setup()
 vim.g.purescript_unicode_conceal_enable = 1
 -- I'm the creator and the default configuration
 -- is what I use
