@@ -33,6 +33,9 @@ require('keybinds').setAll()
 require("nvim-tree").setup()
 --require('typos').setup()
 vim.g.purescript_unicode_conceal_enable = 1
+vim.diagnostic.config({
+  virtual_lines = true
+})
 -- I'm the creator and the default configuration
 -- is what I use
 -- require("vim-octizys").setup()
