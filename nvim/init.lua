@@ -32,6 +32,7 @@ require("user_treesitter")
 require('keybinds').setAll()
 require("nvim-tree").setup()
 --require('typos').setup()
+vim.lsp.enable({ 'prolog' })
 vim.g.purescript_unicode_conceal_enable = 1
 -- I'm the creator and the default configuration
 -- is what I use
