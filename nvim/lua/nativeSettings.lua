@@ -1,8 +1,14 @@
-local nativeSettings = {}
+local M = {}
 
--- Things unrelated to plugins or keybindings
+local function nmap(command, value)
+  vim.api.nvim_set_keymap('n', command, value, { noremap = true })
+end
 
-function nativeSettings.setRegularPropertyes()
+--Things unrelated to plugins or keybindings
+
+--- Common settings of regular neovim like line numbers,
+--- syntax highlight, mouse, etc.
+function M.setRegularPropertyes()
   -- line numbers
   vim.o.number = true
   -- syntax highlight
@@ -39,9 +45,12 @@ function nativeSettings.setRegularPropertyes()
   vim.cmd('hi Pmenu guibg=#0059b3')
   vim.cmd('hi PmenuSel guibg=#3399ff')
   vim.cmd('hi DiagnosticError guifg=#ff6666')
+  vim.o.completeopt = "fuzzy,menuone,popup,noinsert,noselect"
 end
 
-function nativeSettings.regiterMistakenCommands()
+--- Register some usual mistakes like ":W" as aliases
+--- for the right commands.
+function M.regiterMistakenCommands()
   vim.cmd("command W :w")
   vim.cmd("command Wq :wq")
   vim.cmd("command WQ :wq")
@@ -50,7 +59,8 @@ function nativeSettings.regiterMistakenCommands()
   vim.cmd("command Q :q")
 end
 
-function nativeSettings.rememberLastPosition()
+--- A hack to restore position to last position.
+function M.rememberLastPosition()
   local command1 = "if line(\"'\\\"\") > 1 && line(\"'\\\"\") <= line(\"$\") | exe \"normal! "
   local command2 = "g'\\\"\" | endif"
 
@@ -62,10 +72,118 @@ function nativeSettings.rememberLastPosition()
     })
 end
 
-function nativeSettings.setMyDefaultSettings()
-  nativeSettings.setRegularPropertyes()
-  nativeSettings.regiterMistakenCommands()
-  nativeSettings.rememberLastPosition()
+--- Set leader key to " " in normal mode
+function M.setLeader()
+  local leaderKey = " "
+  vim.keymap.set("n"
+  , leaderKey
+  , "<Nop>"
+  , { silent = true, remap = false }
+  )
+  vim.g.mapleader = " "
 end
 
-return nativeSettings
+--- Using [ and ] is very difficult to non English users. Instead we use "zj" and "zk"
+function M.setOrtographyKeybindings()
+  local ortography = {
+    key = 'z'
+    ,
+    next = 'j'
+    ,
+    prev = 'k'
+  }
+  nmap(ortography.key .. ortography.next, ']s')
+  nmap(ortography.key .. ortography.prev, '[s')
+end
+
+M.setLspKeyBinds = function()
+  vim.api.nvim_set_keymap("n", "<leader>c", "",
+    {
+      noremap = true
+      ,
+      callback = vim.lsp.buf.code_action,
+      desc = "Code actions from the lsp"
+    })
+  vim.api.nvim_set_keymap(
+    "n"
+    , "<leader>p"
+    , ""
+    , {
+      noremap = true
+      ,
+      callback = function()
+        vim.diagnostic.jump({ count = -1, float = true })
+      end,
+      desc = "Go to previous lsp error"
+    })
+  vim.api.nvim_set_keymap(
+    "n"
+    , "<leader>n"
+    , ""
+    , {
+      noremap = true
+      ,
+      callback = function()
+        vim.diagnostic.jump({ count = 1, float = true })
+      end,
+      desc = "Go to next lsp error"
+    })
+  vim.api.nvim_set_keymap(
+    "n"
+    , "<leader>h"
+    , ""
+    , {
+      noremap = true
+      ,
+      callback = vim.lsp.buf.hover,
+      desc = "Show hover information"
+    })
+  vim.api.nvim_set_keymap(
+    "n"
+    , "<leader>d"
+    , ""
+    , {
+      noremap = true
+      ,
+      callback = vim.lsp.buf.definition,
+      desc = "Show definition information"
+    })
+  vim.api.nvim_set_keymap(
+    "n"
+    , "<leader>r"
+    , ""
+    , {
+      noremap = true
+      ,
+      callback = vim.lsp.buf.rename,
+      desc = "Lsp rename function"
+    })
+end
+
+M.setWindowMovementKeyBinds = function()
+  nmap('<leader>w', ':lua require(\'nvim-window\').pick()<CR>')
+end
+
+M.setNoJumpAtParen = function()
+  -- My custom keyboard keeps creating `)` instead of j
+  nmap(")", "j")
+end
+
+--- Enable all keybindings.
+function M.setAllKeyBinds()
+  M.setLeader()
+  M.setLspKeyBinds()
+  M.setWindowMovementKeyBinds()
+  M.setOrtographyKeybindings()
+  M.setNoJumpAtParen()
+end
+
+--- Set all the options of neovim that can be used without plugins.
+function M.setAll()
+  M.setRegularPropertyes()
+  M.regiterMistakenCommands()
+  M.rememberLastPosition()
+  M.setAllKeyBinds()
+end
+
+return M
