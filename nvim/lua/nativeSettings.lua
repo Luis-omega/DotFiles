@@ -45,7 +45,7 @@ function M.setRegularPropertyes()
   vim.cmd('hi Pmenu guibg=#0059b3')
   vim.cmd('hi PmenuSel guibg=#3399ff')
   vim.cmd('hi DiagnosticError guifg=#ff6666')
-  vim.o.completeopt = "fuzzy,menuone,noinsert,noselect,popup"
+  vim.o.completeopt = "fuzzy,menuone,popup,noinsert,noselect"
 end
 
 --- Register some usual mistakes like ":W" as aliases

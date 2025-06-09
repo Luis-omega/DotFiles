@@ -30,8 +30,8 @@ setAll("nativeSettings")
 require('packerStartup')
 setAll("colorScheme")
 setAll("indentation")
-setAll("completion")
 setAll("lspSymbols")
+setAll("completion")
 setAll("treesitterConfiguration")
 
 vim.api.nvim_create_autocmd('LspAttach', {
