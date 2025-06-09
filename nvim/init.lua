@@ -26,6 +26,16 @@ local function setAll(name)
   end
 end
 
+local function setup(name)
+  local module = utils.safeLoad(name)
+  if module == nil then
+    utils.error("Can't load configuration: " .. name)
+  else
+    utils.trace("setting: " .. name)
+    module.setup()
+  end
+end
+
 setAll("nativeSettings")
 require('packerStartup')
 setAll("colorScheme")
@@ -33,6 +43,7 @@ setAll("indentation")
 setAll("diagnostics")
 setAll("completion")
 setAll("treesitterConfiguration")
+setup("vim-octizys")
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('my.lsp', {}),

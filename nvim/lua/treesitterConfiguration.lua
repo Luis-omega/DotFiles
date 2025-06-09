@@ -88,6 +88,8 @@ function M.addOctizys()
 end
 
 function M.setAll()
+  local path = M.getParsersPath()
+  M.addParserPath(path)
   M.nvimTreeSitterSetup()
   M.addOctizys()
 end
