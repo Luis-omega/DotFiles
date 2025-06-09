@@ -11,4 +11,13 @@ return {
   , "selene.yml"
   , ".git"
   },
+  settings = {
+    Lua = {
+      completion = {
+        callSnippet = "Both"
+        ,
+        keywordSnippet = "Both"
+      }
+    }
+  }
 }

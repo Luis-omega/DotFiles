@@ -44,6 +44,7 @@ setAll("diagnostics")
 setAll("completion")
 setAll("treesitterConfiguration")
 setup("vim-octizys")
+setup("nvim-tree")
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('my.lsp', {}),
