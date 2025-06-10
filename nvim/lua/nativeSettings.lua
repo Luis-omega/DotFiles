@@ -75,12 +75,14 @@ end
 --- Set leader key to " " in normal mode
 function M.setLeader()
   local leaderKey = " "
+  local localleaderKey = "\\"
   vim.keymap.set("n"
   , leaderKey
   , "<Nop>"
   , { silent = true, remap = false }
   )
-  vim.g.mapleader = " "
+  vim.g.mapleader = leaderKey
+  vim.g.maplocalleader = localleaderKey
 end
 
 --- Using [ and ] is very difficult to non English users. Instead we use "zj" and "zk"

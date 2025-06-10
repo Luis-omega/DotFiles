@@ -20,7 +20,7 @@ end
 
 --- Load the module or send a warning.
 --- @param module_name string
---- @return any|nil
+--- @return nil| table
 function M.safeLoad(module_name)
   local ok, module = pcall(require, module_name)
   if ok then

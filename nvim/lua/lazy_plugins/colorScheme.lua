@@ -29,11 +29,20 @@ function M.setColors()
   ]]
 end
 
---- Set the default color scheme and modify it to match
---- my linking
+--- Set the default color scheme and modify it to my liking.
 function M.setAll()
   M.setColorScheme()
   M.setColors()
 end
 
-return M
+local spec =
+{
+  "folke/tokyonight.nvim"
+  ,
+  lazy = false
+  ,
+  priority = 1000, -- make sure to load this before all the other start plugins
+  config = M.setAll
+}
+
+return spec

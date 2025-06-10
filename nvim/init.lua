@@ -37,8 +37,7 @@ local function setup(name)
 end
 
 setAll("nativeSettings")
-require('packerStartup')
-setAll("colorScheme")
+setup('lazyBootstrap')
 setAll("indentation")
 setAll("diagnostics")
 setAll("completion")
