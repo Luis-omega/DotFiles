@@ -15,19 +15,6 @@ map("gl", ":CoqToLine<CR>")
 vim.g.coqtail_noimap = true;
 vim.g.coqtail_nomap = true;
 
-local function dump(o)
-  if type(o) == 'table' then
-    local s = '{ '
-    for k, v in pairs(o) do
-      if type(k) ~= 'number' then k = '"' .. k .. '"' end
-      s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
-    end
-    return s .. '} '
-  else
-    return tostring(o)
-  end
-end
-
 
 -- We want to format stuff like  "pose( name1 name2 name3 name4 ..) as H."
 -- like:

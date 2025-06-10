@@ -1,3 +1,4 @@
+--- Set the minimum level for neovim notifications
 local function setLogLevel()
   local minLevel = vim.log.levels.WARN
 
@@ -10,8 +11,8 @@ local function setLogLevel()
   end
 end
 
-
 setLogLevel()
+
 local utils = require("utils")
 
 --- Take a module name, load it and configure it.
@@ -26,6 +27,8 @@ local function setAll(name)
   end
 end
 
+--- Take a module name, load it and call setup it.
+--- @param name string
 local function setup(name)
   local module = utils.safeLoad(name)
   if module == nil then
@@ -45,6 +48,7 @@ setAll("treesitterConfiguration")
 setup("vim-octizys")
 setup("nvim-tree")
 
+-- enable autocompletion while writing for every lsp
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('my.lsp', {}),
   callback = function(args)
@@ -54,6 +58,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
       local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
       client.server_capabilities.completionProvider.triggerCharacters = chars
       vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+    end
+    -- Auto-format ("lint") on save.
+    -- Usually not needed if server supports "textDocument/willSaveWaitUntil".
+    if not client:supports_method('textDocument/willSaveWaitUntil')
+        and client:supports_method('textDocument/formatting') then
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        group = vim.api.nvim_create_augroup('my.lsp', { clear = false }),
+        buffer = args.buf,
+        callback = function()
+          vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
+        end,
+      })
     end
   end,
 })
