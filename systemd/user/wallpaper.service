@@ -1,0 +1,11 @@
+[Unit]
+Description=Periodically rotate the wallpaper.
+After=sway-session.target
+Requires=sway-session.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/swaymsg "output * bg $(find $XDG_DATA_HOME/wallpapers/ -type f | shuf -n 1) fill"
+
+[Install]
+WantedBy=sway-session.target

@@ -1,0 +1,6 @@
+[Unit]
+Description=Say hi
+
+[Service]
+Type=oneshot
+ExecStart=%h/.bin/voice "Hi master!, I'm happy to help!"

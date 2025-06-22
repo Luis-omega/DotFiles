@@ -1,0 +1,14 @@
+[Unit]
+Description=USB connection notification
+After=sway-session.target
+Requires=sway-session.target
+
+[Service]
+#ExecStart=/home/omega16/.bin/usb_connected
+#ExecStart=echo "hi_my" > /tmp/my_test_log.txt
+#Type=oneshot
+ExecStart=%h/.bin/usb_connection
+Restart=always
+
+[Install]
+WantedBy=sway-session.target

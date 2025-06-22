@@ -1,0 +1,6 @@
+[Unit]
+Description=Clean up log files to keep them under size limits
+
+[Service]
+Type=oneshot
+ExecStart=%h/.bin/log_cleaner

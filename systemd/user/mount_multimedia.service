@@ -1,0 +1,11 @@
+[Unit]
+Description=Mount multimedia HDD
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/mount /home/omega16/multimedia
+RemainAfterExit=true
+
+[Install]
+WantedBy=default.target

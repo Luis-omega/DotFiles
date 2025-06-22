@@ -1,0 +1,12 @@
+[Unit]
+Description=Run log cleaner.
+After=sway-session.target
+Requires=sway-session.target
+
+[Timer]
+OnBootSec=5m
+OnUnitActiveSec=7d
+Persistent=true
+
+[Install]
+WantedBy=sway-session.target
