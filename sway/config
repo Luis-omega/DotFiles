@@ -9,10 +9,16 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 exec export MOZ_ENABLE_WAYLAND=0
 exec waybar
 
-exec ~/.bin/audio_pair
+#exec ~/.bin/audio_pair
+
+exec ~/.bin/song_notify.sh
 
 # Start sound
+exec pactl set-sink-volume @DEFAULT_SINK@ 25%
 exec paplay ~/.local/share/glados_welcome.wav
+
+# Tags system
+exec balooctl6 enable
 
 ### Variables
 #
@@ -25,63 +31,50 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term kitty
+# Set background image
+set $backgroundImage "$HOME/.local/share/background.jpg"
+# Set idle background image
+set $idleBackgroundImage "$HOME/.local/share/idle_background.png"
 # The menu to launch
-set $menu exec $term --class=launcher -e sway-launcher-desktop
+#set $menu exec $term --class=launcher -e sway-launcher-desktop
+set $menu exec fuzzel -w 50 -f pango:SourceCodePro:size=25,monospace:size=25
+# Screen lock and idle config
+set $locker swaylock
+set $suspendTime 300
+set $lockColor 000000
+
+#timeout $lockTime "$locker -i $idleBackgroundImage -c $lockColor -s fit" \
+#timeout $turnOffScreenTime 'swaymsg "output * dpms off"' \
+#     resume 'swaymsg "output * dpms on"' \
+exec swayidle -w \
+      timeout $suspendTime "$locker -i $idleBackgroundImage -c $lockColor -s fit --daemonize   && (sleep 1;systemctl suspend)" \
+      before-sleep "playerctl pause"
+# Inhibit Idle if a window is fullscreen
+for_window [class="^.*"] inhibit_idle fullscreen
+for_window [app_id="^.*"] inhibit_idle fullscreen
+
 # copy paste
 exec wl-paste -t text --watch clipman store --no-persist
 # polkit agent for thunar and others
 exec /usr/lib/polkit-kde-authentication-agent-1
 
 # This make the menu to float!
-for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
+#for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
 
 # Thunar daemon
-exec thunar --daemon
+#exec thunar --daemon
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output "*" bg ~/.local/share/background.jpg fill
+# output "*" bg "$backgroundImage" fill
+#exec systemctl --user start wallpaper.service
+#exec systemctl --user start wallpaper.timer
 
 
-#I don't really like sway to go idle.
-### Idle configuration
-#
-# Example configuration:
-#
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
 
-#exec swayidle -w timeout 300 "swaylock --image ~/Downloads/Kamisama.Kazoku.full.263875.jpg"
-
-# Inhibit Idle if a window is fullscreen
-for_window [class="^.*"] inhibit_idle fullscreen
-for_window [app_id="^.*"] inhibit_idle fullscreen
-
-#exec swayidle -w \
-#         timeout 300 'swaylock -f -c 000000' \
-#         timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#         before-sleep "swaylock --image ~/Downloads/Kamisama.Kazoku.full.263875.jpg"
 
 ### Input configuration
-#
-# Example configuration:
-#
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
-#
-# You can get the names of your inputs by running: swaymsg -t get_inputs
-# Read `man 5 sway-input` for more information about this section.
 
 input type:keyboard {
   xkb_layout es
@@ -98,8 +91,7 @@ bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioPlay exec playerctl play-pause
-bindsym Print exec ~/.bin/screenshot
-#bindsym Print exec notify-send "a" "b"
+bindsym Print exec screenshot
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
 
@@ -132,10 +124,12 @@ bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
 # Moving around:
 #
     # Move your focus around
-    bindsym $mod+$left focus left
-    bindsym $mod+$down focus down
-    bindsym $mod+$up focus up
-    bindsym $mod+$right focus right
+    bindsym --inhibited $mod+$left focus left
+    bindsym --inhibited $mod+$down focus down
+    bindsym --inhibited $mod+$up focus up
+    bindsym --inhibited $mod+$right focus right
+    bindsym --inhibited $mod nop
+
     # Or use $mod+[up|down|left|right]
     bindsym $mod+Left focus left
     bindsym $mod+Down focus down
@@ -214,6 +208,8 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+for_window [title=".*AccelirateWork.*"] shortcuts_inhibitor disable
+
 #
 # Status Bar:
 #
@@ -231,6 +227,8 @@ bindsym $mod+r mode "resize"
 #        inactive_workspace #32323200 #32323200 #5c5c5c
 #    }
 #}
+
+seat seat0 xcursor_theme Future-cyan-cursors 64
 
 font pango:SourceCodePro Medium 12
 
