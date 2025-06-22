@@ -3,16 +3,18 @@ setopt beep
 unsetopt autocd
 bindkey -v
 setopt beep
+setopt HIST_IGNORE_SPACE
 # End of lines configured by zsh-newuser-install
 zstyle :compinstall filename '/home/omega16/.zshrc'
+
+eval $(keychain --eval --quiet id_ed25519 5596F50478038F84DA9451D3ED943027AECAB7B4)
 
 autoload -Uz compinit
 compinit
 #
 # My personal folder for my local scripts
-path+=("${HOME}/.bin")
-export PATH
-systemctl --user import-environment PATH
+#path+=("${HOME}/.bin")
+#systemctl --user import-environment PATH
 
 function clean(){
   printf '\033[2J\033[3J\033[1;1H'
@@ -20,10 +22,6 @@ function clean(){
 
 function to_project(){
   cd "$PROJECTS_DIR/$1"
-}
-
-function enable_python_env(){
-  source .env/bin/activate
 }
 
 function enable_nix_env(){
@@ -41,59 +39,24 @@ function jam(){
 
 function oct(){
   to_project "octizys"
-}
-
-function lambda(){
-  to_project "Lambda"
-}
-
-function game(){
-  to_project "tower_offense"
-}
-
-function mal(){
-  to_project "mal/impls/python.3"
-  enable_python_env
-}
-
-function megu(){
-  to_project "Degumin"
-  enable_python_env
-}
-
-function parser(){
-  to_project "ParserGenerator"
-  enable_python_env
-}
-
-function work(){
-  source "$WORK_DIR/env.zsh"
-  cd "$WORK_DIR/$WORK_CURRENT_PROJECT"
   enable_nix_env
 }
 
-function make_with_git_root(){
-  root=$(git rev-parse --show-toplevel 2>/dev/null)
-  if [[ $? -ne 0 ]] then
-    echo "can't find git root"
-  else
-    echo "hi $root"
-    #make $1 -C $root
-    npm run $1
-  fi
+function gra(){
+  to_project "tree-sitter-octizys"
 }
 
 function test(){
-  make_with_git_root "test"
+  just "test"
 }
 
 function build(){
-  make_with_git_root "build"
+  just "build"
 }
 
-#function run(){
-#  make_with_git_root "run"
-#}
+function run(){
+  just "run"
+}
 
 
 # Added by ghcup on install
@@ -106,3 +69,6 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "$key[Up]" up-line-or-beginning-search # Up
 bindkey "$key[Down]" down-line-or-beginning-search # Down
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
