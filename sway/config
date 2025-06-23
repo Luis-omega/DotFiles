@@ -40,15 +40,22 @@ set $idleBackgroundImage "$HOME/.local/share/idle_background.png"
 set $menu exec fuzzel -w 50 -f pango:SourceCodePro:size=25,monospace:size=25
 # Screen lock and idle config
 set $locker swaylock
-set $suspendTime 300
+set $lockTime 300
+set $turnOffScreenTime 540
+set $suspendTime 600
 set $lockColor 000000
 
 #timeout $lockTime "$locker -i $idleBackgroundImage -c $lockColor -s fit" \
 #timeout $turnOffScreenTime 'swaymsg "output * dpms off"' \
 #     resume 'swaymsg "output * dpms on"' \
-exec swayidle -w \
-      timeout $suspendTime "$locker -i $idleBackgroundImage -c $lockColor -s fit --daemonize   && (sleep 1;systemctl suspend)" \
+exec swayidle \
+      timeout $lockTime "$locker -i $idleBackgroundImage -c $lockColor -s fit --daemonize" \
+      timeout $turnOffScreenTime 'swaymsg "output * dpms off"' \
+           resume 'swaymsg "output * dpms on"' \
+      timeout $suspendTime "systemctl suspend" \
       before-sleep "playerctl pause"
+#timeout $suspendTime "$locker -i $idleBackgroundImage -c $lockColor -s fit --daemonize   && (sleep 1;systemctl suspend)" \
+#before-sleep "playerctl pause"
 # Inhibit Idle if a window is fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
 for_window [app_id="^.*"] inhibit_idle fullscreen
