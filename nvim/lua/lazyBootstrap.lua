@@ -93,7 +93,7 @@ function M.launchLazySetup()
         ,
         patterns = { "vim-octizys" }
         ,
-        fallback = false
+        fallback = true
       }
     })
   end
